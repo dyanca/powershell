@@ -1,0 +1,31 @@
+
+$HostReport = @()
+
+$viservers = "VC-Field.us001.siemens.net" 
+
+foreach ($singleViserver in $viservers)
+{
+    Connect-VIServer $singleViserver -user USERNAME -password 'PASSWORD'
+    Get-VMHost |%{
+        $Report = "" | select Hostname, ip_address
+        if($_.Extensiondata.Config.Product.ProductLineId -eq "embeddedEsx"){
+            $Report.Hostname = $_.Name
+            $Report.ip_address = $_.NetworkInfo.VirtualNic[0].IP
+        }
+        else{
+            $Report.Hostname = $_.Name
+            $Report.ip_address = $_.NetworkInfo.ConsoleNic[0].IP
+        }
+        $HostReport += $Report
+    }
+}
+
+$HostReport | Export-Csv ".\HostReport.csv" –NoTypeInformation 
+
+
+
+
+
+
+
+

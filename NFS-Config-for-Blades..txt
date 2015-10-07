@@ -1,0 +1,71 @@
+Connect-VIServer uslzuil008v01.US001.SIEMENS.NET -Username root -Password "ixse.2010@GL"
+
+### Create vSwitch1 ###
+New-VirtualSwitch –Name “vSwitch1” -Nic vmnic1
+
+$vh01=get-vmhost uslzuil008v01.US001.SIEMENS.NET
+
+$vh01moref=$vh01 |% {get-view $_.Id}
+$vh01morefconfig=$vh01moref.configmanager
+$vh01netsys=$vh01morefconfig.networksystem
+$vh01netsysmoref=get-view $vh01netsys
+$vh01vsw0=$vh01netsysmoref.NetworkConfig.Vswitch | where {$_.Name -eq "vSwitch1"}
+
+$swspec= $vh01vsw0.Spec   # here you copy the existing spec object
+
+$swspec.policy.security.allowPromiscuous=$false
+$swspec.policy.security.forgedTransmits=$false
+$swspec.policy.security.macChanges=$false
+
+$vh01netsysmoref.UpdateVirtualSwitch($vh01vsw0.name,$swspec)
+
+### Create vmkernel port for NFS ###
+New-VMHostNetworkAdapter -VirtualSwitch vSwitch1 -PortGroup "NFS" -IP 172.16.120.86 -SubnetMask 255.255.255.0
+
+### Modify NFS port with VLAN ID ###
+$vs = Get-VirtualSwitch -Name vSwitch1
+Get-VirtualPortGroup -VirtualSwitch $vs | Set-VirtualPortGroup -VlanId 608 
+
+### Create vSwitch2 ###
+New-VirtualSwitch –Name “vSwitch2” -Nic vmnic5,vmnic4,vmnic2
+$vs = Get-VirtualSwitch -Name vSwitch2
+$vs | Set-VirtualSwitch -NumPorts 128 -Confirm
+
+$vh01moref=$vh01 |% {get-view $_.Id}
+$vh01morefconfig=$vh01moref.configmanager
+$vh01netsys=$vh01morefconfig.networksystem
+$vh01netsysmoref=get-view $vh01netsys
+$vh01vsw0=$vh01netsysmoref.NetworkConfig.Vswitch | where {$_.Name -eq "vSwitch2"}
+
+$swspec= $vh01vsw0.Spec   # here you copy the existing spec object
+
+$swspec.policy.security.allowPromiscuous=$false
+$swspec.policy.security.forgedTransmits=$false
+$swspec.policy.security.macChanges=$false
+
+$vh01netsysmoref.UpdateVirtualSwitch($vh01vsw0.name,$swspec)
+
+
+### Add port groups ###
+get-virtualswitch -name vSwitch2| new-virtualportgroup -name 117_SIS -vlanid 117
+get-virtualswitch -name vSwitch2| new-virtualportgroup -name 116_SIS -vlanid 116
+get-virtualswitch -name vSwitch2| new-virtualportgroup -name 510_SIS -vlanid 510
+get-virtualswitch -name vSwitch2| new-virtualportgroup -name 600_SIS -vlanid 600
+get-virtualswitch -name vSwitch2| new-virtualportgroup -name 121_SIS -vlanid 121
+get-virtualswitch -name vSwitch2| new-virtualportgroup -name 610_SIS -vlanid 610
+get-virtualswitch -name vSwitch2| new-virtualportgroup -name 2105_CHESS -vlanid 2105
+get-virtualswitch -name vSwitch2| new-virtualportgroup -name 2112_CHESS -vlanid 2112
+get-virtualswitch -name vSwitch2| new-virtualportgroup -name 2106_CHESS -vlanid 2106
+get-virtualswitch -name vSwitch2| new-virtualportgroup -name 2104_CHESS -vlanid 2104
+get-virtualswitch -name vSwitch2| new-virtualportgroup -name 2101_CHESS -vlanid 2101
+get-virtualswitch -name vSwitch2| new-virtualportgroup -name 2111_CHESS -vlanid 2111
+get-virtualswitch -name vSwitch2| new-virtualportgroup -name 2127_CHESS -vlanid 2127
+get-virtualswitch -name vSwitch2| new-virtualportgroup -name 2103_CHESS -vlanid 2103
+get-virtualswitch -name vSwitch2| new-virtualportgroup -name 2102_CHESS -vlanid 2102
+get-virtualswitch -name vSwitch2| new-virtualportgroup -name 2120_CHESS -vlanid 2120
+get-virtualswitch -name vSwitch2| new-virtualportgroup -name 2119_CHESS -vlanid 2119
+get-virtualswitch -name vSwitch2| new-virtualportgroup -name 2000_CHESS -vlanid 2000
+get-virtualswitch -name vSwitch2| new-virtualportgroup -name 2100_CHESS -vlanid 2100
+get-virtualswitch -name vSwitch2| new-virtualportgroup -name 464_SIS -vlanid 464
+get-virtualswitch -name vSwitch2| new-virtualportgroup -name 462_SIS -vlanid 462
+get-virtualswitch -name vSwitch2| new-virtualportgroup -name 421_SIS -vlanid 421

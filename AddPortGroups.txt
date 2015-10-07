@@ -1,0 +1,9 @@
+$myVCenter = Connect-VIServer -Server "vc-glsdc.US001.SIEMENS.NET" -User "us001\dky001-a" -Password ""
+  
+foreach ($ESXhost in get-cluster Standard_SIS_001| get-vmhost)
+
+{
+	get-virtualswitch -vmhost $ESXhost -name vSwitch0| new-virtualportgroup -name 510_SIS -vlanid 510
+	
+}
+

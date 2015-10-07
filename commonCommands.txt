@@ -1,0 +1,18 @@
+*** get IP address ***
+get-vm -Name plv13-ap1-dpm | select Name,@{N="IP Address";E={@($_.guest.IPAddress)}}
+get-vm -Name plv13-ap1-dpm | select Name,@{N="IP Address";E={@($_.guest.IPAddress[0])}}
+
+*** Create vSwitch1 ***
+New-VirtualSwitch –Name “vSwitch1” -Nic vmnic1
+
+*** Create vmkernel port for NFS ***
+New-VMHostNetworkAdapter -VirtualSwitch vSwitch1 -PortGroup "NFS" -IP 172.16.120.36 -SubnetMask 255.255.255.0
+
+*** Modify NFS port with VLAN ID ***
+$vs = Get-VirtualSwitch -Name vSwitch1
+Get-VirtualPortGroup -VirtualSwitch $vs | Set-VirtualPortGroup -VlanId 608 
+
+*** Create vSwitch2 ***
+New-VirtualSwitch –Name “vSwitch2” -Nic vmnic5,vmnic4,vmnic2
+$vs = Get-VirtualSwitch -Name vSwitch2
+$vs | Set-VirtualSwitch -NumPorts 128

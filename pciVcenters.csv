@@ -1,0 +1,9 @@
+vcenter,location
+PCIVCENTER02,WAG1
+EPCIVCENTER101,WAG2
+PCIVCENTER101,WAG2
+epcivcenter01,WAG1
+pw1sim-epciv10,WAG1
+pw1sim-ipciv10,WAG1
+pw2sim-epciv20,WAG2
+pw2sim-ipciv20,WAG2
