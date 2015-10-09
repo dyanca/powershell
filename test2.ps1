@@ -2,7 +2,7 @@
 
 $myCol = @()
 foreach ($singleViserver in $viservers) {
-	Connect-VIServer $singleViserver -User secyancadan -Password "Nov.2013E"
+	Connect-VIServer $singleViserver -User  -Password ""
 	ForEach ($VMguest in Get-VM)
 	    {
 			$Server = $VMguest.Name

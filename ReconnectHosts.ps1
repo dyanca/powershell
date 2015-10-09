@@ -1,6 +1,6 @@
 ﻿# Reconnect all hosts in VirtualCenter. Connect first using Get-VIServer.
 # If you need a password, set it here.
-$password = "ixse.2010@GL"
+$password = ""
 get-vmhost | where { $_.State -eq "Disconnected" -or $_.State -eq "notResponding" } |
   % {
     $view = get-view $_.ID

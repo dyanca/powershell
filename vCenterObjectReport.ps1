@@ -13,7 +13,7 @@ foreach ($singleViserver in $viservers)
     $hostCount = $null
     $datastoreCount = $null
 
-	Connect-VIServer $singleViserver -user "walgreens\secyancad" -password "Jul.2015E"
+	Connect-VIServer $singleViserver -user "" -password ""
 
        $Report = "" | select vCenter,Datacenters,Clusters,VMs,Hosts,Datastores
        $Report.vCenter = $singleViserver

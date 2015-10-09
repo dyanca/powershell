@@ -1,4 +1,4 @@
-Connect-VIServer uslzuilw001srv.us001.siemens.net -User "us001\dky001-a" -Password "ILoveAlana!"
+Connect-VIServer uslzuilw001srv.us001.siemens.net -User "" -Password ""
 
 $esxName = "uslzuil014v05.us001.siemens.net"
 

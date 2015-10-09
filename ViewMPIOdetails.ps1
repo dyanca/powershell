@@ -1,4 +1,4 @@
-﻿Connect-VIServer dtnvcenter101  -user "walgreens\secyancadan" -password "Dec.2012E"
+﻿Connect-VIServer dtnvcenter101  -user "" -password ""
 
 foreach ($VMHost in Get-VMhost) {
 

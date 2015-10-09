@@ -4,7 +4,7 @@ $viservers = "SENVCENTER101"
 $HBAreport = @()
 foreach ($singleViserver in $viservers)
 {
-	Connect-VIServer $singleViserver -user "walgreens\secyancadan" -password "Aug.2014E"
+	Connect-VIServer $singleViserver -user "" -password ""
 		foreach ($datastore in Get-Datastore) {
 
 	       $Report = "" | select Name,vCenter,TotalSpaceGB,UsedSpaceGB,ProvisionedSpaceGB,NumVM,PercentUsed,PercentOverProv

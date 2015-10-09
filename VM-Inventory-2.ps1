@@ -8,7 +8,7 @@
 $HBAreport = @()
 foreach ($singleViserver in $viservers)
 {
-	Connect-VIServer $singleViserver -user secyancad -password "Jul.2015E"
+	Connect-VIServer $singleViserver -user  -password ""
 }
 	
 get-vm | select Name,NumCpu,MemoryGB,@{N="vCenter";E={$_.ExtensionData.CLient.ServiceUrl.Split('/')[2]}},@{N="OS";E={$_.Guest.OSFullName}} | Export-Csv c:\temp\VM-Inventory-060215.csv -NoTypeInformation

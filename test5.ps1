@@ -1,4 +1,4 @@
-﻿#$myVCenter = Connect-VIServer -Server "SENVCENTER1" -User "secyancadan" -Password "Mar.2014E"
+﻿#$myVCenter = Connect-VIServer -Server "SENVCENTER1" -User "" -Password ""
   
 foreach ($ESXhost in get-vmhost)
 
